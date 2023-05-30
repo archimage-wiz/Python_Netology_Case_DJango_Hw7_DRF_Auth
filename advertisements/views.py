@@ -5,8 +5,10 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
+from advertisements.filters import AdvertisementsFilter
 from advertisements.models import Advertisement
-from advertisements.serializers import AdvertisementSerializer, AdvertisementsFilter
+from advertisements.permissions import IsOwnerOrReadOnly
+from advertisements.serializers import AdvertisementSerializer
 
 
 class AdvertisementViewSet(ModelViewSet):
@@ -23,8 +25,8 @@ class AdvertisementViewSet(ModelViewSet):
 
     def get_permissions(self):
         """Получение прав для действий."""
-        if self.action in ["create", "update", "partial_update"]:
-            return [IsAuthenticated()]
+        if self.action in ["create", "update", "partial_update", "delete"]:
+            return [IsAuthenticated(), IsOwnerOrReadOnly()]
         return []
 
 
