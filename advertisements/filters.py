@@ -9,5 +9,5 @@ class AdvertisementsFilter(FilterSet):
 
     class Meta:
         model = Advertisement
-        fields = ['created_at', 'status']
+        fields = ['created_at', 'status', 'title', 'description']
 

@@ -38,7 +38,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def validate(self, data):
-        if data.get('status') and data.get('status') == 'open':
+        if data.get('status') == 'open' or self.context['request'].method == 'POST':
             if Advertisement.objects.filter(
                     creator=self.context['request'].user,
                     status=AdvertisementStatusChoices.OPEN).count() >= 10:
